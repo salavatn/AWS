@@ -5,7 +5,7 @@ You will learn "How to":
 2. [Done] Get list Bucket
     - Get via RESOURCE
     - Get via CLIENT
-3. Upload file to Bucket
+3. [Done] Upload file to Bucket
 - Check uploaded files
 - Delete file from Bucket
 - Delete Bucket
@@ -124,6 +124,7 @@ bucket_name = 'new-storage3'
 filepath = '/home/salavat/Pictures/picture.jpg'
 filename = 'photo-7.jpg'
 
-s3_client = boto3.client('s3')
-s3_client.upload_file(filepath, bucket_name, filename)
+s3 = boto3.client('s3')
+
+s3.upload_file(filepath, bucket_name, filename)
 ```
