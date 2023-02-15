@@ -1,7 +1,8 @@
 import boto3
 
-s3 = boto3.resource('s3')
+bucket_name = 'new-storage3'
+filepath = '/home/salavat/Pictures/picture.jpg'
+filename = 'photo-7.jpg'
 
-print('Existing buckets:')
-for bucket in s3.buckets.all():
-    print(f"\t{bucket.name}")
+s3_client = boto3.client('s3')
+s3_client.upload_file(filepath, bucket_name, filename)

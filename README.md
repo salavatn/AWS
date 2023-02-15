@@ -79,6 +79,8 @@ Existing buckets:
 	ns-lab-web
 	ns-lab.open-storage
 ```
+
+
 ### 2.2. Get via CLIENT:
 ```python
 import boto3
@@ -97,13 +99,31 @@ Existing buckets:
 	ns-lab.open-storage
 ```
 
+
 ## 3. Upload file to Bucket
+### Upload via "RESOURCE" and "PUT_OBJECT"
 ```python
 import boto3
 
+bucket_name = 'new-storage3'
+filepath = '/home/salavat/Pictures/picture.jpg'
+filename = 'photo-6.jpg'
+
 s3 = boto3.resource('s3')
 
-# Upload a new file
-data = open('/home/salavat/Pictures/picture.jpg', 'rb')
-s3.Bucket('ns-lab.open-storage').put_object(Key='my_picture.jpg', Body=data)
+file = open(filepath, 'rb')
+bucket = s3.Bucket(bucket_name)
+bucket.put_object(Key=filename, Body=file)
+```
+
+### Upload via "CLIENT" and "UPLOAD_FILE"
+```python
+import boto3
+
+bucket_name = 'new-storage3'
+filepath = '/home/salavat/Pictures/picture.jpg'
+filename = 'photo-7.jpg'
+
+s3_client = boto3.client('s3')
+s3_client.upload_file(filepath, bucket_name, filename)
 ```
