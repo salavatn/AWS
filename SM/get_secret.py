@@ -1,13 +1,16 @@
-import json
 import boto3
 
-client = boto3.client('secretsmanager')
-secrets_dict = client.list_secrets()
-secrets_list = secrets_dict["SecretList"]
+service_name = 'secretsmanager'
+secret_name = "PostgreSQL_3"
+region_name = "eu-central-1"
 
-for secret in secrets_list:
-    secret_name = secret["Name"]
-    values = client.get_secret_value(SecretId=secret_name)
-    variables = json.loads(values['SecretString'])
-    print(f"Secret Name:\t{secret_name}")
-    print(f'Variables:\t{variables}\n')
+session = boto3.session.Session()
+client = session.client(
+    service_name=service_name,
+    region_name=region_name)
+
+values = client.get_secret_value(
+    SecretId=secret_name)
+
+secret = values['SecretString']
+print(secret)
