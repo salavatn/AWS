@@ -1,0 +1,65 @@
+service: MyDemo
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: dev
+  region: eu-central-1  # Region
+  timeout: 5            # Custom value used by default for functions
+  memorySize: 128       # Custom value used by default for functions
+
+
+# Provider: IAM Role
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "lambda:*"
+          Resource:
+            - "*"
+
+# Provider: Wide environment variables
+  environment:
+    MY_FIRST_NAME: Salavat
+    MY_SECOND_NAME: Nigmatullin
+    My_ENV_LOCATION: GLOBAL
+
+
+
+# Function list:
+functions:
+  part-1:                         # Function Name 
+    handler: webapp.based         # File Name and Function Name
+    timeout: 5                    # Time for execution
+    memorySize: 256               # RAM memory execution
+    description: short timeout function
+
+  part-2:
+    handler: webapp.based
+    timeout: 7
+    memorySize: 512
+    description: long timeout function
+  
+  part-3:
+    handler: webapp.boto3_test
+    timeout: 3
+    memorySize: 128
+    description: check boto3 list_functions of lambda
+  
+  part-4: 
+    handler: webapp.get_variable
+    timeout: 2
+    memorySize: 128
+    description: Get Variables from yaml (Environment section)
+
+  part-5:
+    handler: webapp.get_variable
+    memorySize: 128
+    description: Get Variable from yaml (Function Section)
+    environment:                  # Function local environment
+      MY_FIRST_NAME: Tim
+      MY_SECOND_NAME: Muller
+      My_ENV_LOCATION: Local
