@@ -1,0 +1,28 @@
+service: nigmatullin
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: development
+  region: eu-central-1
+  memorySize: 128
+  timeout: 2
+
+  environment:
+    USER: salavat
+    SURNAME: nigmatullin
+    AGE: 30
+
+functions:
+  firstproject:
+    handler: webapp.home
+    memorySize: 256
+    description: "description for FirstProject!"
+    timeout: 1
+    environment:
+      USER: Airas
+      SURNAME: latypov
+      AGE: 38
+    
