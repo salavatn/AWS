@@ -1,0 +1,38 @@
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+
+    Properties:
+      FunctionName: my-note-api
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Timeout: 30
+      CodeUri: .
+      MemorySize: 256
+      Environment:
+        Variables:
+          DB_URL: "<database_url>"
+
+      Events:
+        CreateNote:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: POST
+
+        ReadNote:
+          Type: Api
+          Properties:
+            Path: /notes/{note_id}
+            Method: GET
+            
+        DeleteNote:
+          Type: Api
+          Properties:
+            Path: /notes/{note_id}
+            Method: DELETE
+
+Outputs:
+  ApiURL:
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: URL for API Gateway endpoint

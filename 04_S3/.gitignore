@@ -1,0 +1,8 @@
+# Environment variables
+venv
+
+# Original .env file
+.env
+
+# Files for PYPI upload
+dist

@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Notes Web App
+ 
+Resources:
+  NotesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'NotesFunction'
+      CodeUri: notes/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref NotesTable
+      
+      Events:
+        GetNotesApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/notes
+            Method: get
+
+        CreateNoteApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/notes
+            Method: post
+
+        DeleteNoteApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/notes/{note_id}
+            Method: delete
+
+        UpdateNoteApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/notes/{note_id}
+            Method: put
+ 
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: NotesTable
+      AttributeDefinitions:
+        - AttributeName: note_id
+          AttributeType: S
+
+      KeySchema:
+        - AttributeName: note_id
+          KeyType: HASH
+
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+ 
+Outputs:
+  ApiUrl:
+    Description: URL of the Notes API
+    Value:
+      Fn::Sub: 'https://${Api}.execute-api.${AWS::Region}.${AWS::URLSuffix}/api/notes'
+
+# Инструкцию для публикации на aws lambda через sam

@@ -1,0 +1,29 @@
+service: FinalPyThumbnail
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: eu-central-1      # My Region: Frankfurt
+  # profile: svc-serverless   # user account in AWS IAM
+  # profile: serverless-admin
+  stage: testing            # just name
+  timeout: 10               # Maximum second for function
+  memorySize: 128           # RAM memory for function
+  environment: 
+    THUMBNAIL_SIZE: 128
+    REGION_NAME: ${self.provider.region}
+
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Resource: '*'
+          Action: 's3:*'
+          
+
+
+functions:
+  part1:
+    handler: webapp.home
